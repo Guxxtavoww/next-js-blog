@@ -27,7 +27,7 @@ export default function Profile({ userData }: iProfileProps) {
           loading="lazy"
         />
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="p-2 space-y-3">
         <div className="px-4 text-sm">
           <p>{userData.user_metadata?.user_name}</p>
           <p className="text-gray-500">{userData.email}</p>
