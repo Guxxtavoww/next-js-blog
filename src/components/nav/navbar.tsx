@@ -1,9 +1,16 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
-import GithubLogin from '../github-login/github-login';
+import { useUserState } from '@/lib/store/user.store';
+
+import Profile from './profile';
+import GithubLogin from './github-login';
 
 export default function Navbar() {
+  const user = useUserState((state) => state.user);
+
   return (
     <nav className="flex justify-between items-center">
       <div className="group">
@@ -12,7 +19,7 @@ export default function Navbar() {
         </Link>
         <div className="h-1 w-0 group-hover:w-full transition-all bg-green-500" />
       </div>
-      <GithubLogin />
+      {user ? <Profile userData={user} /> : <GithubLogin />}
     </nav>
   );
 }

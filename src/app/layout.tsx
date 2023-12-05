@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 
 import Navbar from '@/components/nav/navbar';
 import { ThemeProvider } from '@/providers/theme-provider';
+import SessionProvider from '@/providers/session-provider';
 
 import './globals.css';
 
@@ -27,10 +28,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="max-w-7xl mx-auto p-10 space-y-5 min-h-screen">
-            <Navbar />
-            {children}
-          </main>
+          <SessionProvider>
+            <main className="max-w-7xl mx-auto p-10 space-y-5 min-h-screen">
+              <Navbar />
+              {children}
+            </main>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
