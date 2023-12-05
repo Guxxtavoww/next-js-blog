@@ -25,8 +25,7 @@ export default function SessionProvider({
 
   useEffect(() => {
     readUserSession();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [readUserSession]);
 
   return <>{children}</>;
 }
