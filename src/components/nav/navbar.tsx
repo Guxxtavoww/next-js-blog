@@ -15,7 +15,7 @@ export default function Navbar() {
     <nav className="flex justify-between items-center">
       <div className="group">
         <Link href="/" className="text-2xl font-bold">
-          Blog
+          Next JS Blog
         </Link>
         <div className="h-1 w-0 group-hover:w-full transition-all bg-green-500" />
       </div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import Navbar from '@/components/nav/navbar';
+import { envSchema } from '@/config/env.config';
 import { ThemeProvider } from '@/providers/theme-provider';
 import SessionProvider from '@/providers/session-provider';
 import { TanstackProvider } from '@/providers/tanstack-provider';
@@ -15,26 +16,32 @@ export const metadata: Metadata = {
   description: 'App criado com NEXT JS',
 };
 
-export default function RootLayout(props: { children: React.ReactNode }) {
-  return (
-    <html lang="pt-br" suppressHydrationWarning>
-      <body className={inter.className}>
-        <TanstackProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SessionProvider>
-              <main className="max-w-7xl mx-auto p-10 space-y-5 min-h-screen">
-                <Navbar />
-                {props.children}
-              </main>
-            </SessionProvider>
-          </ThemeProvider>
-        </TanstackProvider>
-      </body>
-    </html>
-  );
+export default function RootLayout(props: WithChildren) {
+  try {
+    envSchema.parse(process.env);
+
+    return (
+      <html lang="pt-br" suppressHydrationWarning>
+        <body className={inter.className}>
+          <TanstackProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <SessionProvider>
+                <main className="max-w-7xl mx-auto p-10 space-y-10 min-h-screen">
+                  <Navbar />
+                  {props.children}
+                </main>
+              </SessionProvider>
+            </ThemeProvider>
+          </TanstackProvider>
+        </body>
+      </html>
+    );
+  } catch (err) {
+    return <div>VARIAVEIS DE AMBIENTE INVÁLIDAS</div>;
+  }
 }

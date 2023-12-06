@@ -21,7 +21,7 @@ interface iProfileProps {
 }
 
 export default function Profile({ userData }: iProfileProps) {
-  const { isPending, mutateAsync } = useProfile();
+  const { isPending, mutateAsync, isAdmin } = useProfile(userData);
 
   return (
     <Popover>
@@ -35,20 +35,22 @@ export default function Profile({ userData }: iProfileProps) {
           loading="lazy"
         />
       </PopoverTrigger>
-      <PopoverContent className="p-2 space-y-3 divide-y-2">
+      <PopoverContent className="p-2 space-y-3 divide-y-1" align="end">
         <div className="px-4 text-sm">
           <p>{userData.user_metadata?.user_name}</p>
           <p className="text-gray-500">{userData.email}</p>
         </div>
-        <Link href="/dashboard" className="block">
-          <Button
-            variant="ghost"
-            className="w-full flex items-center justify-between"
-          >
-            Dashboard
-            <DashboardIcon />
-          </Button>
-        </Link>
+        {isAdmin ? (
+          <Link href="/dashboard" className="block">
+            <Button
+              variant="ghost"
+              className="w-full flex items-center justify-between"
+            >
+              Dashboard
+              <DashboardIcon />
+            </Button>
+          </Link>
+        ) : null}
         <Button
           variant="ghost"
           className="w-full flex items-center justify-between"

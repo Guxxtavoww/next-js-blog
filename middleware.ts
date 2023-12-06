@@ -44,9 +44,19 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const { data, error } = await supabase.auth.getSession();
+  const { data } = await supabase.auth.getSession();
 
-  console.log({ data, error });
+  if (data.session) {
+    if (data.session.user.user_metadata.role !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
 
-  return response;
+    return response;
+  } else {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
 }
+
+export const config = {
+  matcher: ['/dashboard/:path*'],
+};
