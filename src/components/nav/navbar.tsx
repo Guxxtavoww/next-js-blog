@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 import { useUserState } from '@/lib/store/user.store';
 
-import Profile from './profile';
-import GithubLogin from './github-login';
+import Profile from './components/profile';
+import GithubLogin from './components/github-login';
 
 export default function Navbar() {
   const user = useUserState((state) => state.user);

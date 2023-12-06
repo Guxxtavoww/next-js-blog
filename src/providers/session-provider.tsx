@@ -5,11 +5,7 @@ import { createBrowserClient } from '@supabase/ssr';
 
 import { useUserState } from '@/lib/store/user.store';
 
-export default function SessionProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SessionProvider({ children }: WithChildren) {
   const setUser = useUserState((state) => state.setUser);
 
   const supabase = createBrowserClient(
