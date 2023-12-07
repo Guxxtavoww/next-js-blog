@@ -134,7 +134,7 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
                     )}
                   >
                     <Input
-                      placeholder="Blog title"
+                      placeholder="Título do Post"
                       {...field}
                       autoFocus
                       className={cn(
@@ -151,7 +151,7 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
                       )}
                     >
                       <h1 className="text-3xl font-bold dark:text-gray-200">
-                        {form.getValues().title || 'Untittle blog'}
+                        {form.getValues().title || 'Post sem título'}
                       </h1>
                     </div>
                   </div>
@@ -180,7 +180,7 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
                     )}
                   >
                     <Input
-                      placeholder="🔗 Image url"
+                      placeholder="Url da imagem 🔗"
                       {...field}
                       className={cn(
                         'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500 ',
@@ -202,12 +202,12 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
                             src={form.getValues().image_url}
                             alt="preview"
                             fill
-                            className=" object-cover object-center rounded-md"
+                            className="object-cover object-center rounded-md"
                           />
                         </div>
                       ) : (
                         <p className="text-gray-400">
-                          👆 click on preview to see image
+                          👆 Clique em {`'Preview'`} para ver a imagem
                         </p>
                       )}
                     </div>
@@ -233,10 +233,10 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
                   )}
                 >
                   <Textarea
-                    placeholder="Blog content"
+                    placeholder="Conteúdo do post..."
                     {...field}
                     className={cn(
-                      'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500  h-70vh resize-none',
+                      'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500  h-72 max-h-full',
                       isPreview ? 'w-0 p-0' : 'w-full lg:w-1/2'
                     )}
                   />
