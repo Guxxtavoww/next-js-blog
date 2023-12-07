@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 
 import Navbar from '@/components/nav/navbar';
 import { envSchema } from '@/config/env.config';
+import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/providers/theme-provider';
 import SessionProvider from '@/providers/session-provider';
 import { TanstackProvider } from '@/providers/tanstack-provider';
@@ -36,6 +37,7 @@ export default function RootLayout(props: WithChildren) {
                   {props.children}
                 </main>
               </SessionProvider>
+              <Toaster />
             </ThemeProvider>
           </TanstackProvider>
         </body>

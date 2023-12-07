@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import PostsTableRowActions from './posts-table-row-actions';
 import { Switch } from '@/components/ui/switch';
+
+import PostsTableRowActions from './posts-table-row-actions';
 
 export default function PostsTable() {
   return (
