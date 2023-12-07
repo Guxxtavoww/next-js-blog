@@ -50,8 +50,6 @@ export async function middleware(request: NextRequest) {
     if (data.session.user.user_metadata.role !== 'admin') {
       return NextResponse.redirect(new URL('/', request.url));
     }
-
-    return response;
   } else {
     return NextResponse.redirect(new URL('/', request.url));
   }
