@@ -7,13 +7,21 @@ import {
   RocketIcon,
   StarIcon,
 } from '@radix-ui/react-icons';
+import { BsSave } from 'react-icons/bs';
 
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form';
 
 import { iCreatePostFormProps } from '../types/props.types';
 import { useCreatePostForm } from '../hooks/create-post-form.hook';
+import { cn } from '@/lib/utils';
 
 export default function CreatePostForm(props: iCreatePostFormProps) {
   const { form, isPending, handleSubmit, handlePreviewChange, isPreview } =
@@ -25,11 +33,11 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="w-full border pb-5 rounded-md"
       >
-        <div className="border-b p-5 flex items-center sm:justify-between flex-wrap sm:flex-row gap-2">
+        <div className="border-b p-5 flex justify-between items-center gap-1 flex-wrap">
           <Button
             type="button"
             onClick={handlePreviewChange}
-            variant="ghost"
+            variant="secondary"
             className="inline-flex items-center gap-2"
           >
             {!isPreview ? (
@@ -40,7 +48,7 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
             ) : (
               <>
                 <Pencil1Icon />
-                Edit
+                Editar
               </>
             )}
           </Button>
@@ -50,9 +58,15 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex items-center gap-1 border p-2 rounded-md bg-zinc-800">
-                    <StarIcon />
-                    <span className="text-sm">Premium</span>
+                  <div className="flex items-start gap-3 flex-col">
+                    <FormLabel
+                      className={cn('inline-flex gap-1', {
+                        'text-green-500': field.value === true,
+                      })}
+                    >
+                      <StarIcon />
+                      Premium
+                    </FormLabel>
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
@@ -68,9 +82,15 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex items-center gap-1 border p-2 rounded-md bg-zinc-800">
-                    <RocketIcon />
-                    <span className="text-sm">Publicado ?</span>
+                  <div className="flex items-start gap-3 flex-col">
+                    <FormLabel
+                      className={cn('inline-flex gap-1', {
+                        'text-green-500': field.value === true,
+                      })}
+                    >
+                      <RocketIcon />
+                      Publicado ?
+                    </FormLabel>
                     <Switch
                       checked={field.value}
                       onCheckedChange={field.onChange}
@@ -81,6 +101,16 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
             )}
           />
         </div>
+        <Button
+          type="submit"
+          role="button"
+          variant="default"
+          disabled={!form.formState.isValid}
+          className="inline-flex items-center gap-1"
+        >
+          <BsSave className="animate-bounce group-disabled:animate-none" />
+          Save
+        </Button>
       </form>
     </Form>
   );
