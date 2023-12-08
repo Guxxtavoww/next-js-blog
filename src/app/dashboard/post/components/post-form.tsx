@@ -10,8 +10,6 @@ import {
 } from '@radix-ui/react-icons';
 import { BsSave } from 'react-icons/bs';
 
-import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -21,13 +19,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
+import Loader from '@/components/ui/loader';
 import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import MarkdownPreview from '@/components/markdown/markdown-preview';
 
 import { usePostForm } from './post-form.hook';
 import { PostFormType } from './post-form.types';
-import Loader from '@/components/ui/loader';
 
 export interface iPostFormProps {
   onSubmit: (data: PostFormType) => void;
@@ -143,36 +143,34 @@ export default function CreatePostForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <>
+                <div
+                  className={cn(
+                    'w-full flex break-words p-2 gap-2',
+                    isPreview ? 'divide-x-0' : 'divide-x'
+                  )}
+                >
+                  <Input
+                    placeholder="Título do Post"
+                    {...field}
+                    autoFocus
+                    className={cn(
+                      'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500',
+                      isPreview ? 'w-0 p-0' : 'w-full lg:w-1/2'
+                    )}
+                  />
                   <div
                     className={cn(
-                      'w-full flex break-words p-2 gap-2',
-                      isPreview ? 'divide-x-0' : 'divide-x'
+                      'lg:px-10',
+                      isPreview
+                        ? 'mx-auto w-full lg:w-4/5 '
+                        : ' w-1/2 lg:block hidden '
                     )}
                   >
-                    <Input
-                      placeholder="Título do Post"
-                      {...field}
-                      autoFocus
-                      className={cn(
-                        'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500',
-                        isPreview ? 'w-0 p-0' : 'w-full lg:w-1/2'
-                      )}
-                    />
-                    <div
-                      className={cn(
-                        'lg:px-10',
-                        isPreview
-                          ? 'mx-auto w-full lg:w-4/5 '
-                          : ' w-1/2 lg:block hidden '
-                      )}
-                    >
-                      <h1 className="text-3xl font-bold dark:text-gray-200">
-                        {form.getValues().title || 'Post sem título'}
-                      </h1>
-                    </div>
+                    <h1 className="text-3xl font-bold dark:text-gray-200">
+                      {form.getValues().title || 'Post sem título'}
+                    </h1>
                   </div>
-                </>
+                </div>
               </FormControl>
               {form.getFieldState('title').invalid &&
                 form.getValues().title && (
