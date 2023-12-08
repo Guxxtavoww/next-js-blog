@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createPostFormSchema = z.object({
+export const postFormSchema = z.object({
   title: z.string({ required_error: 'Título é obrigatório' }).min(10, {
     message: 'Título é muito pequeno',
   }),
@@ -13,3 +13,5 @@ export const createPostFormSchema = z.object({
   is_premium: z.boolean().optional().default(false),
   is_published: z.boolean().optional().default(false),
 });
+
+export type PostFormType = z.infer<typeof postFormSchema>;

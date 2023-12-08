@@ -25,12 +25,20 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import MarkdownPreview from '@/components/markdown/markdown-preview';
 
-import { iCreatePostFormProps } from '../types/props.types';
-import { useCreatePostForm } from '../hooks/create-post-form.hook';
+import { usePostForm } from './post-form.hook';
+import { PostFormType } from './post-form.types';
 
-export default function CreatePostForm(props: iCreatePostFormProps) {
+export interface iPostFormProps {
+  onSubmit: (data: PostFormType) => void;
+  defaultData?: Maybe<PostFormType>;
+}
+
+export default function CreatePostForm({
+  onSubmit,
+  defaultData,
+}: iPostFormProps) {
   const { form, isPending, handleSubmit, handlePreviewChange, isPreview } =
-    useCreatePostForm(props.onSubmit);
+    usePostForm(defaultData, onSubmit);
 
   return (
     <Form {...form}>
@@ -242,7 +250,7 @@ export default function CreatePostForm(props: iCreatePostFormProps) {
                   />
                   <div
                     className={cn(
-                      'overflow-scroll h-full ',
+                      'overflow-auto ',
                       isPreview
                         ? 'mx-auto w-full lg:w-4/5 '
                         : 'w-1/2 lg:block hidden'

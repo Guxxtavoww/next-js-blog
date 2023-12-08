@@ -1,9 +1,9 @@
+'use server';
+
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -55,8 +55,6 @@ export async function middleware(request: NextRequest) {
       },
     }
   );
-
-  await supabase.auth.getSession();
 
   const { data } = await supabase.auth.getSession();
 

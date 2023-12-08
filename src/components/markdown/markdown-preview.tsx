@@ -2,7 +2,7 @@ import React from 'react';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import { PiTerminalThin } from 'react-icons/pi';
-import { SiJavascript } from "react-icons/si";
+import { SiJavascript } from 'react-icons/si';
 
 import 'highlight.js/styles/atom-one-dark.min.css';
 
@@ -42,7 +42,7 @@ export default function MarkdownPreview({
             }
 
             return (
-              <div className=" bg-graident-dark text-gray-300 border-[0.5px] rounded-md border-zinc-500">
+              <div className="bg-graident-dark text-gray-300 border-[0.5px] rounded-md border-zinc-500">
                 <div className="flex items-center justify-between px-5 py-2 border-b-[0.5px] border-zinc-500">
                   <div className="flex items-center gap-2">
                     <Icon />

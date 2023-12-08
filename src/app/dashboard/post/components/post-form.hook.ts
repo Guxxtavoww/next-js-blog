@@ -4,22 +4,28 @@ import { useCallback, useState, useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { CreatePostFormType } from '../types/form.types';
-import { createPostFormSchema } from '../schemas/create-post-form.schema';
+import { PostFormType, postFormSchema } from './post-form.types';
 
-export function useCreatePostForm(
-  onSubmit: (data: CreatePostFormType) => void
+export function usePostForm(
+  defaultData: Maybe<PostFormType>,
+  onSubmit: (data: PostFormType) => void
 ) {
   const [isPreview, setPreview] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<CreatePostFormType>({
+  const form = useForm<PostFormType>({
     mode: 'all',
-    resolver: zodResolver(createPostFormSchema),
+    resolver: zodResolver(postFormSchema),
+    defaultValues: {
+      content: defaultData?.content,
+      image_url: defaultData?.image_url,
+      is_premium: defaultData?.is_premium,
+      is_published: defaultData?.is_published,
+    },
   });
 
   const handleSubmit = useCallback(
-    (data: CreatePostFormType) => {
+    (data: PostFormType) => {
       startTransition(() => {
         onSubmit(data);
       });
