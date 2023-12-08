@@ -17,6 +17,7 @@ export function usePostForm(
     mode: 'all',
     resolver: zodResolver(postFormSchema),
     defaultValues: {
+      title: defaultData?.title,
       content: defaultData?.content,
       image_url: defaultData?.image_url,
       is_premium: defaultData?.is_premium,

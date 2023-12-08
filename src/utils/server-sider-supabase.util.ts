@@ -64,5 +64,13 @@ export async function createPost(data: PostFormType) {
 }
 
 export async function getUniquePost(post_id: string) {
-  const foundedPost = await serverSideSupabase.from('posts');
+  const post = await serverSideSupabase
+    .from('blog')
+    .select('*')
+    .eq('id', post_id)
+    .single();
+
+  console.log(post);
+
+  return post;
 }

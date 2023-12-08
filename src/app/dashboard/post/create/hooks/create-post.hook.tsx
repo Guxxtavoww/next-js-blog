@@ -32,6 +32,8 @@ export function useCreatePost() {
 
         router.push('/dashboard');
       } catch (error: any) {
+        console.log(error);
+
         toast({
           title: 'Falha ao criar o post 😢',
           description: (
