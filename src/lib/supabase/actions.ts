@@ -16,7 +16,7 @@ class ServerSideSupabase {
   private instance: SupabaseClient<Database, 'public'> | undefined = undefined;
   private cookies: ReadonlyRequestCookies | undefined = undefined;
 
-  getCookiesInstance() {
+  async getCookiesInstance() {
     if (this.cookies) return this.cookies;
 
     this.cookies = nextCookies();
@@ -24,10 +24,10 @@ class ServerSideSupabase {
     return this.cookies;
   }
 
-  getInstance() {
+  async getInstance() {
     if (this.instance) return this.instance;
 
-    const cookiesStore = this.getCookiesInstance();
+    const cookiesStore = await this.getCookiesInstance();
 
     this.instance = createServerClient<Database>(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -45,9 +45,11 @@ class ServerSideSupabase {
   }
 }
 
-const supabase = new ServerSideSupabase().getInstance();
+const supabaseServerClient = new ServerSideSupabase();
 
 export async function getUserPosts() {
+  const supabase = await supabaseServerClient.getInstance();
+
   const posts = await supabase
     .from('blog')
     .select('*')
@@ -64,6 +66,8 @@ export async function getUserPosts() {
 export async function createPost(data: PostFormType) {
   const { content, ...post } = data;
 
+  const supabase = await supabaseServerClient.getInstance();
+
   const createdPost = await supabase
     .from('posts')
     .insert(post)
@@ -74,7 +78,7 @@ export async function createPost(data: PostFormType) {
     throw createdPost.error;
   }
 
-  const createdContent = supabase
+  const createdContent = await supabase
     .from('posts_content')
     .insert({ content, related_post_id: createdPost.data.id });
 
@@ -82,6 +86,8 @@ export async function createPost(data: PostFormType) {
 }
 
 export async function getUniquePost(post_id: string) {
+  const supabase = await supabaseServerClient.getInstance();
+
   const post = await supabase
     .from('posts')
     .select('*')
@@ -92,6 +98,8 @@ export async function getUniquePost(post_id: string) {
 }
 
 export async function deletePost(post_id: string) {
+  const supabase = await supabaseServerClient.getInstance();
+
   const result = await supabase.from('posts').delete().eq('id', post_id);
 
   revalidatePath(DASHBOARD);
