@@ -51,7 +51,7 @@ export async function getUserPosts() {
   const supabase = await supabaseServerClient.getInstance();
 
   const posts = await supabase
-    .from('blog')
+    .from('posts')
     .select('*')
     .eq('is_published', true)
     .order('created_at', { ascending: true });
