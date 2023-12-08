@@ -6,7 +6,7 @@ import { User } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
 
 import { useUserState } from '@/lib/store/user.store';
-import { clientSideSupabase } from '@/utils/client-side-supabase.util';
+import { clientSideSupabase } from '@/lib/supabase/browser-client';
 
 export function useProfile(userData: User) {
   const router = useRouter();

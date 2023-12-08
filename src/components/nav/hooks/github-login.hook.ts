@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
-import { clientSideSupabase } from '@/utils/client-side-supabase.util';
+import { clientSideSupabase } from '@/lib/supabase/browser-client';
 
 export function useGithubLogin() {
   const pathname = usePathname();

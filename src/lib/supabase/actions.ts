@@ -1,12 +1,16 @@
 'use server';
 
-import { cookies as nextCookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 import { createServerClient } from '@supabase/ssr';
+import { cookies as nextCookies } from 'next/headers';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
-import { Database } from '@/lib/supabase/types';
 import { PostFormType } from '@/app/dashboard/post/components/post-form.types';
+
+import { Database } from './types';
+
+const DASHBOARD = '/dashboard';
 
 class ServerSideSupabase {
   private instance: SupabaseClient<Database, 'public'> | undefined = undefined;
@@ -41,36 +45,57 @@ class ServerSideSupabase {
   }
 }
 
-const serverSideSupabase = new ServerSideSupabase().getInstance();
+const supabase = new ServerSideSupabase().getInstance();
+
+export async function getUserPosts() {
+  const posts = await supabase
+    .from('blog')
+    .select('*')
+    .eq('is_published', true)
+    .order('created_at', { ascending: true });
+
+  if (posts.error) {
+    throw posts.error;
+  }
+
+  return posts;
+}
 
 export async function createPost(data: PostFormType) {
   const { content, ...post } = data;
 
-  const createdPost = await serverSideSupabase
+  const createdPost = await supabase
     .from('posts')
     .insert(post)
     .select('id')
     .single();
 
   if (createdPost.error) {
-    throw JSON.stringify(createdPost);
+    throw createdPost.error;
   }
 
-  const createdContent = await serverSideSupabase
+  const createdContent = supabase
     .from('posts_content')
     .insert({ content, related_post_id: createdPost.data.id });
 
-  return JSON.stringify(createdContent);
+  return createdContent;
 }
 
 export async function getUniquePost(post_id: string) {
-  const post = await serverSideSupabase
-    .from('blog')
+  const post = await supabase
+    .from('posts')
     .select('*')
     .eq('id', post_id)
     .single();
 
-  console.log(post);
-
   return post;
+}
+
+export async function deletePost(post_id: string) {
+  const result = await supabase.from('posts').delete().eq('id', post_id);
+
+  revalidatePath(DASHBOARD);
+  revalidatePath('/posts/edit/' + post_id);
+
+  return result;
 }

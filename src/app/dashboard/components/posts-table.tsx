@@ -1,3 +1,5 @@
+'use server';
+
 import React from 'react';
 
 import {
@@ -8,10 +10,17 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Switch } from '@/components/ui/switch';
+import { getUserPosts } from '@/lib/supabase/actions';
 
 import PostsTableRowActions from './posts-table-row-actions';
 
-export default function PostsTable() {
+export default async function PostsTable() {
+  const { data: posts } = await getUserPosts();
+
+  if (!posts || !posts.length) {
+    return <span className="text-sm text-center">Não há posts</span>;
+  }
+
   return (
     <Table className="border bg-gradient-dark rounded-md w-full overflow-x-auto">
       <TableHeader>
@@ -23,18 +32,20 @@ export default function PostsTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell align="center">KARALHO</TableCell>
-          <TableCell align="center">
-            <Switch />
-          </TableCell>
-          <TableCell align="center">
-            <Switch />
-          </TableCell>
-          <TableCell align="center">
-            <PostsTableRowActions data={''} />
-          </TableCell>
-        </TableRow>
+        {posts.map((post, index) => (
+          <TableRow key={index}>
+            <TableCell align="center">{post.title}</TableCell>
+            <TableCell align="center">
+              <Switch defaultChecked={post.is_premium} />
+            </TableCell>
+            <TableCell align="center">
+              <Switch defaultChecked={post.is_published} />
+            </TableCell>
+            <TableCell align="center">
+              <PostsTableRowActions data={post} />
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

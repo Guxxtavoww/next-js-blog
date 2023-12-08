@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect } from 'react';
 
 import { useUserState } from '@/lib/store/user.store';
-import { clientSideSupabase } from '@/utils/client-side-supabase.util';
+import { clientSideSupabase } from '@/lib/supabase/browser-client';
 
 export default function SessionProvider({ children }: WithChildren) {
   const setUser = useUserState((state) => state.setUser);
