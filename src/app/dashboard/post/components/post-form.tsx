@@ -27,15 +27,18 @@ import MarkdownPreview from '@/components/markdown/markdown-preview';
 
 import { usePostForm } from './post-form.hook';
 import { PostFormType } from './post-form.types';
+import Loader from '@/components/ui/loader';
 
 export interface iPostFormProps {
   onSubmit: (data: PostFormType) => void;
   defaultData?: Maybe<PostFormType>;
+  isLoading?: boolean;
 }
 
 export default function CreatePostForm({
   onSubmit,
   defaultData,
+  isLoading,
 }: iPostFormProps) {
   const { form, isPending, handleSubmit, handlePreviewChange, isPreview } =
     usePostForm(defaultData, onSubmit);
@@ -119,13 +122,19 @@ export default function CreatePostForm({
             type="submit"
             role="button"
             variant="default"
-            disabled={!form.formState.isValid}
+            disabled={!form.formState.isValid || isLoading}
             className={cn('inline-flex items-center gap-1', {
               'animate-spin': isPending,
             })}
           >
-            <BsSave className="animate-bounce group-disabled:animate-none" />
-            Save
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <>
+                <BsSave className="animate-bounce group-disabled:animate-none" />
+                Save
+              </>
+            )}
           </Button>
         </div>
         <FormField

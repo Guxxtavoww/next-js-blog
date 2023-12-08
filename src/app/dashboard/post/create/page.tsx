@@ -1,8 +1,12 @@
 'use client';
 
 import React from 'react';
+
 import CreatePostForm from '../components/post-form';
+import { useCreatePost } from './hooks/create-post.hook';
 
 export default function CreatePost() {
-  return <CreatePostForm onSubmit={(data) => console.log(data)} />;
+  const { handleSubmit, isPending } = useCreatePost();
+
+  return <CreatePostForm onSubmit={handleSubmit} isLoading={isPending} />;
 }
