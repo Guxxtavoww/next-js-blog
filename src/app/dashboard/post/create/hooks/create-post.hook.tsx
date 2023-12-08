@@ -2,9 +2,9 @@
 
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
 import { toast } from '@/components/ui/use-toast';
-import { useMutation } from '@tanstack/react-query';
 import { createPost } from '@/utils/server-sider-supabase.util';
 
 import { PostFormType } from '../../components/post-form.types';
