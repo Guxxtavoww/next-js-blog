@@ -82,6 +82,8 @@ export async function createPost(data: PostFormType) {
     .from('posts_content')
     .insert({ content, related_post_id: createdPost.data.id });
 
+  revalidatePath(DASHBOARD);
+
   return createdContent;
 }
 
