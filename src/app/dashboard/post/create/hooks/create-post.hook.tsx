@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import { toast } from '@/components/ui/use-toast';
-import { createPost } from '@/utils/server-sider-supabase.util';
+import { createPost } from '@/lib/supabase/actions';
 
 import { PostFormType } from '../../components/post-form.types';
 
