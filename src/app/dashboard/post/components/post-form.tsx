@@ -251,7 +251,7 @@ export default function CreatePostForm({
                     placeholder="Conteúdo do post..."
                     {...field}
                     className={cn(
-                      'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500  h-72 max-h-full',
+                      'border-none text-lg font-medium leading-relaxed focus:ring-1 ring-green-500 h-full max-h-full',
                       isPreview ? 'w-0 p-0' : 'w-full lg:w-1/2'
                     )}
                   />

@@ -9,7 +9,7 @@ export default function SessionProvider({ children }: WithChildren) {
   const setUser = useUserState((state) => state.setUser);
 
   const readUserSession = useCallback(async () => {
-    const { data } = await clientSideSupabase.auth.getSession();
+    const { data } = await clientSideSupabase.getInstance().auth.getSession();
 
     setUser(data.session?.user);
   }, [setUser]);

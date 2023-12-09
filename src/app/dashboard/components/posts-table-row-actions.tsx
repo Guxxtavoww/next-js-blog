@@ -22,7 +22,7 @@ export default function PostsTableRowActions({
       <Button variant="outline" className="inline-flex items-center gap-2">
         <Pencil1Icon /> Editar
       </Button>
-      <PostsTableDeleteAction post_id={data.id} />
+      <PostsTableDeleteAction post_id={data.id} post_title={data.title} />
     </div>
   );
 }

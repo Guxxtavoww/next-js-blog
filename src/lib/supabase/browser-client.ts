@@ -18,4 +18,4 @@ class ClientSideSupabase {
   }
 }
 
-export const clientSideSupabase = new ClientSideSupabase().getInstance();
+export const clientSideSupabase = new ClientSideSupabase()

@@ -23,13 +23,15 @@ import { PickTableType } from '@/lib/supabase/types';
 
 export default function PostsTableDeleteAction({
   post_id,
+  post_title,
 }: {
   post_id: PickTableType<'posts'>['id'];
+  post_title: PickTableType<'posts'>['title'];
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { isPending, mutateAsync } = useMutation({
-    mutationKey: ['delete-post', post_id],
+    mutationKey: ['delete-post'],
     mutationFn: async (id: string) => {
       return await deletePost(id).catch((err) => {
         throw err;
@@ -39,13 +41,13 @@ export default function PostsTableDeleteAction({
 
   const handleClick = useCallback(async () => {
     try {
-      await mutateAsync(post_id);
+      await mutateAsync(post_id).then(() => {
+        toast({
+          title: `Post: '${post_id}' deletado com sucesso! 🎉`,
+        });
 
-      toast({
-        title: `Post: '${post_id}' deletado com sucesso! 🎉`,
+        setIsOpen(false);
       });
-
-      setIsOpen(false);
     } catch (error: any) {
       toast({
         title: 'Falha ao deletar!',
@@ -73,8 +75,9 @@ export default function PostsTableDeleteAction({
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza ?</AlertDialogTitle>
           <AlertDialogDescription>
-            Essa ação não pode ser desfeita. Isso excluirá permanentemente esta
-            postagem e conteúdo relacionado a ele.
+            Essa ação não pode ser desfeita. Isso excluirá permanentemente a
+            postagem: <strong className="text-extraBold">{post_title}</strong> e
+            o conteúdo relacionado a ela.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

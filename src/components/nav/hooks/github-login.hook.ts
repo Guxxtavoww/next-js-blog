@@ -11,7 +11,7 @@ export function useGithubLogin() {
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ['github-login'],
     mutationFn: async () => {
-      clientSideSupabase.auth.signInWithOAuth({
+      clientSideSupabase.getInstance().auth.signInWithOAuth({
         provider: 'github',
         options: {
           redirectTo: `${location.origin}/auth/callback?next=${pathname}`,

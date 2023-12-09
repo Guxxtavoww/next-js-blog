@@ -53,7 +53,6 @@ export async function getUserPosts() {
   const posts = await supabase
     .from('posts')
     .select('*')
-    .eq('is_published', true)
     .order('created_at', { ascending: true });
 
   if (posts.error) {
@@ -80,7 +79,7 @@ export async function createPost(data: PostFormType) {
 
   const createdContent = await supabase
     .from('posts_content')
-    .insert({ content, related_post_id: createdPost.data.id });
+    .insert({ content, blog_id: createdPost.data.id });
 
   revalidatePath(DASHBOARD);
 
@@ -102,10 +101,16 @@ export async function getUniquePost(post_id: string) {
 export async function deletePost(post_id: string) {
   const supabase = await supabaseServerClient.getInstance();
 
-  const result = await supabase.from('posts').delete().eq('id', post_id);
+  const deletePostResult = await supabase
+    .from('posts')
+    .delete()
+    .eq('id', post_id);
+
+  if (deletePostResult.error) {
+    throw deletePostResult.error;
+  }
 
   revalidatePath(DASHBOARD);
-  revalidatePath('/posts/edit/' + post_id);
 
-  return result;
+  return deletePostResult;
 }

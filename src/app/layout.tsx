@@ -22,8 +22,8 @@ export default function RootLayout(props: WithChildren) {
     envSchema.parse(process.env);
 
     return (
-      <html lang="pt-br" suppressHydrationWarning>
-        <body className={inter.className}>
+      <html lang="pt-br">
+        <body className={inter.className} suppressHydrationWarning={true}>
           <TanstackProvider>
             <ThemeProvider
               attribute="class"

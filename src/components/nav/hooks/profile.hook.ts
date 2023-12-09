@@ -15,7 +15,7 @@ export function useProfile(userData: User) {
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ['logout'],
     mutationFn: async () => {
-      await clientSideSupabase.auth.signOut();
+      await clientSideSupabase.getInstance().auth.signOut();
 
       setUser(undefined);
       router.replace('/');
