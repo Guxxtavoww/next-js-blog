@@ -139,11 +139,11 @@ export async function updateBooleanValuesFromPost(
     .update({ [type]: value })
     .eq('id', post_id);
 
-  revalidatePath(DASHBOARD);
-
   if (updatedPost.error) {
     throw updatedPost.error;
   }
+
+  revalidatePath(DASHBOARD);
 
   return updatedPost.data;
 }
