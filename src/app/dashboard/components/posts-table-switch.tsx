@@ -9,7 +9,10 @@ import { updateBooleanValuesFromPost } from '@/lib/supabase/actions';
 
 interface iPostsTableSwitchProps {
   defaultChecked: boolean;
-  type: keyof Pick<PickTableType<'posts'>, 'is_premium' | 'is_published'>;
+  type: keyof Omit<
+    PickTableType<'posts'>,
+    'created_at' | 'id' | 'image_url' | 'title'
+  >;
   post_id: string;
 }
 

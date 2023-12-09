@@ -127,7 +127,10 @@ export async function updatePost(data: PostFormType, post_id: string) {
 export async function updateBooleanValuesFromPost(
   post_id: string,
   value: boolean,
-  type: keyof Pick<PickTableType<'posts'>, 'is_premium' | 'is_published'>
+  type: keyof Omit<
+    PickTableType<'posts'>,
+    'created_at' | 'id' | 'image_url' | 'title'
+  >
 ) {
   const supabase = await supabaseServerClient.getInstance();
 
