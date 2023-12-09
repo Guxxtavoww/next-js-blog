@@ -9,10 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Switch } from '@/components/ui/switch';
 import { getUserPosts } from '@/lib/supabase/actions';
 
 import PostsTableRowActions from './posts-table-row-actions';
+import PostsTableSwitch from './posts-table-switch';
 
 export default async function PostsTable() {
   const { data: posts } = await getUserPosts();
@@ -36,10 +36,18 @@ export default async function PostsTable() {
           <TableRow key={index}>
             <TableCell align="center">{post.title}</TableCell>
             <TableCell align="center">
-              <Switch defaultChecked={post.is_premium} />
+              <PostsTableSwitch
+                defaultChecked={post.is_premium}
+                type="is_premium"
+                post_id={post.id}
+              />
             </TableCell>
             <TableCell align="center">
-              <Switch defaultChecked={post.is_published} />
+              <PostsTableSwitch
+                defaultChecked={post.is_published}
+                type="is_published"
+                post_id={post.id}
+              />
             </TableCell>
             <TableCell align="center">
               <PostsTableRowActions data={post} />

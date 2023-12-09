@@ -1,5 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { EyeOpenIcon, Pencil1Icon } from '@radix-ui/react-icons';
 
 import { Button } from '@/components/ui/button';
@@ -14,12 +16,22 @@ interface iPostsTableRowActionsProps {
 export default function PostsTableRowActions({
   data,
 }: iPostsTableRowActionsProps) {
+  const router = useRouter();
+
+  const handleEditButtonClick = useCallback(() => {
+    router.replace(`/dashboard/post/edit/${data.id}`);
+  }, [router, data]);
+
   return (
     <div className="flex items-center justify-center flex-wrap gap-5">
       <Button variant="outline" className="inline-flex items-center gap-2">
         <EyeOpenIcon /> Visibilidade
       </Button>
-      <Button variant="outline" className="inline-flex items-center gap-2">
+      <Button
+        variant="outline"
+        className="inline-flex items-center gap-2"
+        onClick={handleEditButtonClick}
+      >
         <Pencil1Icon /> Editar
       </Button>
       <PostsTableDeleteAction post_id={data.id} post_title={data.title} />

@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import CreatePostForm from '../components/post-form';
+import PostForm from '../components/post-form';
 import { useCreatePost } from './hooks/create-post.hook';
 
 export default function CreatePost() {
   const { handleSubmit, isPending } = useCreatePost();
 
-  return <CreatePostForm onSubmit={handleSubmit} isLoading={isPending} />;
+  return <PostForm onSubmit={handleSubmit} isLoading={isPending} />;
 }

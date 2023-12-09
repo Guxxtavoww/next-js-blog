@@ -33,12 +33,14 @@ export interface iPostFormProps {
   onSubmit: (data: PostFormType) => void;
   defaultData?: Maybe<PostFormType>;
   isLoading?: boolean;
+  submitButtonText?: string;
 }
 
-export default function CreatePostForm({
+export default function PostForm({
   onSubmit,
   defaultData,
   isLoading,
+  submitButtonText,
 }: iPostFormProps) {
   const { form, isPending, handleSubmit, handlePreviewChange, isPreview } =
     usePostForm(defaultData, onSubmit);
@@ -132,7 +134,7 @@ export default function CreatePostForm({
             ) : (
               <>
                 <BsSave className="animate-bounce group-disabled:animate-none" />
-                Save
+                {submitButtonText || 'Salvar'}
               </>
             )}
           </Button>
