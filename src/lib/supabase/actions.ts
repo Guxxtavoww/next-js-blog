@@ -47,7 +47,7 @@ class ServerSideSupabase {
 
 const supabaseServerClient = new ServerSideSupabase();
 
-export async function getUserPosts() {
+export async function getAdminPosts() {
   const supabase = await supabaseServerClient.getInstance();
 
   const posts = await supabase
@@ -59,7 +59,23 @@ export async function getUserPosts() {
     throw posts.error;
   }
 
-  return posts;
+  return posts.data;
+}
+
+export async function getPosts() {
+  const supabase = await supabaseServerClient.getInstance();
+
+  const posts = await supabase
+    .from('posts')
+    .select('*')
+    .eq('is_published', true)
+    .order('created_at', { ascending: true });
+
+  if (posts.error) {
+    throw posts.error;
+  }
+
+  return posts.data;
 }
 
 export async function createPost(data: PostFormType) {
@@ -82,6 +98,7 @@ export async function createPost(data: PostFormType) {
     .insert({ content, post_id: createdPost.data.id });
 
   revalidatePath(DASHBOARD);
+  revalidatePath('/');
 
   return createdContent;
 }
@@ -119,6 +136,7 @@ export async function updatePost(data: PostFormType, post_id: string) {
     throw updatedPost.error || updatedPostContent.error;
   }
 
+  revalidatePath('/');
   revalidatePath(DASHBOARD);
 
   return Promise.resolve();
@@ -143,6 +161,7 @@ export async function updateBooleanValuesFromPost(
     throw updatedPost.error;
   }
 
+  revalidatePath('/');
   revalidatePath(DASHBOARD);
 
   return updatedPost.data;
@@ -160,6 +179,7 @@ export async function deletePost(post_id: string) {
     throw deletePostResult.error;
   }
 
+  revalidatePath('/');
   revalidatePath(DASHBOARD);
 
   return deletePostResult;

@@ -9,13 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getUserPosts } from '@/lib/supabase/actions';
+import { getAdminPosts } from '@/lib/supabase/actions';
 
-import PostsTableRowActions from './posts-table-row-actions';
 import PostsTableSwitch from './posts-table-switch';
+import PostsTableRowActions from './posts-table-row-actions';
 
 export default async function PostsTable() {
-  const { data: posts } = await getUserPosts();
+  const posts = await getAdminPosts();
 
   if (!posts || !posts.length) {
     return <span className="text-sm text-center">Não há posts</span>;
