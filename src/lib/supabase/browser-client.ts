@@ -3,9 +3,11 @@
 import { createBrowserClient } from '@supabase/ssr';
 import { SupabaseClient } from '@supabase/supabase-js';
 
-class ClientSideSupabase {
-  private instance: SupabaseClient<any, 'public', any> | undefined = undefined;
+import { Database } from './types';
 
+class ClientSideSupabase {
+  private instance: SupabaseClient<Database, 'public'> | undefined = undefined;
+  
   getInstance() {
     if (this.instance) return this.instance;
 
@@ -18,4 +20,4 @@ class ClientSideSupabase {
   }
 }
 
-export const clientSideSupabase = new ClientSideSupabase()
+export const clientSideSupabase = new ClientSideSupabase();
