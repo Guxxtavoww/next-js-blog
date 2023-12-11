@@ -24,7 +24,6 @@ export default async function Page() {
           <div className="relative w-full h-72 md:h-64 xl:h-96">
             <Image
               priority
-              loading="lazy"
               src={post.image_url}
               alt={`Post image ${post.id}`}
               className="rounded-lg"

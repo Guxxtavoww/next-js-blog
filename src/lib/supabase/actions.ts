@@ -47,6 +47,21 @@ class ServerSideSupabase {
 
 const supabaseServerClient = new ServerSideSupabase();
 
+export async function getUsers() {
+  const supabase = await supabaseServerClient.getInstance();
+
+  const users = await supabase
+    .from('users')
+    .select('*')
+    .order('created_at', { ascending: true });
+
+  if (users.error) {
+    throw users.error;
+  }
+
+  return users.data;
+}
+
 export async function getAdminPosts() {
   const supabase = await supabaseServerClient.getInstance();
 
@@ -103,10 +118,10 @@ export async function createPost(data: PostFormType) {
   return createdContent;
 }
 
-export async function getUniquePost(post_id: string) {
+export async function getUniquePostWithContent(post_id: string) {
   const supabase = await supabaseServerClient.getInstance();
 
-  const [post, post_content] = await Promise.all([
+  const [post, post_content_response] = await Promise.all([
     supabase.from('posts').select('*').eq('id', post_id).single(),
     supabase
       .from('posts_content')
@@ -115,11 +130,14 @@ export async function getUniquePost(post_id: string) {
       .single(),
   ]);
 
-  if (post.error || post_content.error) {
-    throw post.error || post_content.error;
+  if (post.error) {
+    return undefined;
   }
 
-  return { ...post.data, content: post_content.data?.content };
+  return {
+    ...post.data,
+    content: post_content_response.data?.content || undefined,
+  };
 }
 
 export async function updatePost(data: PostFormType, post_id: string) {
