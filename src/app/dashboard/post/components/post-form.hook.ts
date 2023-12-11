@@ -20,7 +20,6 @@ export function usePostForm(
       title: defaultData?.title,
       content: defaultData?.content,
       image_url: defaultData?.image_url,
-      is_premium: defaultData?.is_premium,
       is_published: defaultData?.is_published,
     },
   });

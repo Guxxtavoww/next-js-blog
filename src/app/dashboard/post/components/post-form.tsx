@@ -73,30 +73,6 @@ export default function PostForm({
             </Button>
             <FormField
               control={form.control}
-              name="is_premium"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <div className="flex items-start gap-3 flex-col">
-                      <FormLabel
-                        className={cn('inline-flex gap-1', {
-                          'text-green-500': field.value === true,
-                        })}
-                      >
-                        <StarIcon />
-                        Premium
-                      </FormLabel>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </div>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="is_published"
               render={({ field }) => (
                 <FormItem>

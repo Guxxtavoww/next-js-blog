@@ -26,7 +26,6 @@ export default async function PostsTable() {
       <TableHeader>
         <TableRow>
           <TableCell align="center">Título</TableCell>
-          <TableCell align="center">Premium</TableCell>
           <TableCell align="center">Publicado</TableCell>
           <TableCell align="center">Ações</TableCell>
         </TableRow>
@@ -35,13 +34,6 @@ export default async function PostsTable() {
         {posts.map((post, index) => (
           <TableRow key={index}>
             <TableCell align="center">{post.title}</TableCell>
-            <TableCell align="center">
-              <PostsTableSwitch
-                defaultChecked={post.is_premium}
-                type="is_premium"
-                post_id={post.id}
-              />
-            </TableCell>
             <TableCell align="center">
               <PostsTableSwitch
                 defaultChecked={post.is_published}

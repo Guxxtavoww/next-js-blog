@@ -13,11 +13,6 @@ const links = [
     text: 'Dashboard',
     icon: ReaderIcon,
   },
-  {
-    href: '/dashboard/user',
-    text: 'Usuário',
-    icon: PersonIcon,
-  },
 ];
 
 export default function NavLinks() {

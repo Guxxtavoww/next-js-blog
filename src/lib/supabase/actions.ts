@@ -47,21 +47,6 @@ class ServerSideSupabase {
 
 const supabaseServerClient = new ServerSideSupabase();
 
-export async function getUsers() {
-  const supabase = await supabaseServerClient.getInstance();
-
-  const users = await supabase
-    .from('users')
-    .select('*')
-    .order('created_at', { ascending: true });
-
-  if (users.error) {
-    throw users.error;
-  }
-
-  return users.data;
-}
-
 export async function getAdminPosts() {
   const supabase = await supabaseServerClient.getInstance();
 
@@ -114,6 +99,7 @@ export async function createPost(data: PostFormType) {
 
   revalidatePath(DASHBOARD);
   revalidatePath('/');
+  revalidatePath(`/post/${createdPost.data.id}`);
 
   return createdContent;
 }
@@ -130,13 +116,13 @@ export async function getUniquePostWithContent(post_id: string) {
       .single(),
   ]);
 
-  if (post.error) {
-    return undefined;
+  if (post.error || post_content_response.error) {
+    throw post.error || post_content_response.error;
   }
 
   return {
     ...post.data,
-    content: post_content_response.data?.content || undefined,
+    content: post_content_response.data.content,
   };
 }
 
@@ -155,6 +141,7 @@ export async function updatePost(data: PostFormType, post_id: string) {
   }
 
   revalidatePath('/');
+  revalidatePath(`/post/${post_id}`);
   revalidatePath(DASHBOARD);
 
   return Promise.resolve();
@@ -180,6 +167,7 @@ export async function updateBooleanValuesFromPost(
   }
 
   revalidatePath('/');
+  revalidatePath(`/post/${post_id}`);
   revalidatePath(DASHBOARD);
 
   return updatedPost.data;
@@ -198,6 +186,7 @@ export async function deletePost(post_id: string) {
   }
 
   revalidatePath('/');
+  revalidatePath(`/post/${post_id}`);
   revalidatePath(DASHBOARD);
 
   return deletePostResult;
