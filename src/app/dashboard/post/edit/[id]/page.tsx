@@ -11,5 +11,14 @@ export default async function EditPost({
 }) {
   const post_data = await getUniquePostWithContent(id);
 
-  return <EditPostForm default_data={post_data} post_id={id} />;
+  if (!post_data) {
+    return <h1 className="text-white">Inválido</h1>;
+  }
+
+  return (
+    <EditPostForm
+      default_data={{ ...post_data, content: post_data.content || '' }}
+      post_id={id}
+    />
+  );
 }
